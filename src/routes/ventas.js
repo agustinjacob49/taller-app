@@ -3,8 +3,7 @@ const router = require('express').Router();
 //Aclaracion , venta es porque es una tarea, nada mas.
 //ventas es un arreglo de tareas. Nada mas sencillo
 //Cada tarea es un objeto
-//Podria decirse que mongoDB guarda un array de objetos de tipo tarea o lo que
-//Se me cante la chota.
+
 
 
 //Iniciar mongoDB

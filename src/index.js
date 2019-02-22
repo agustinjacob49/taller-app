@@ -38,7 +38,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 //Static files
-//ACA SE COLOCA EL DIST PERRO
+//ACA SE COLOCA EL DIST
 app.use(express.static(path.join(__dirname, 'dist/client')));
 app.use(express.static(path.join(__dirname, 'dist/articulo')));
 app.use(express.static(path.join(__dirname, 'dist/venta')));
