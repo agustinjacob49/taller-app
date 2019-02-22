@@ -1,0 +1,41 @@
+<h3>Nueva salida de caja</h3>
+<button (click)="regresar()" class="btn btn-outline-danger">
+  Regresar
+</button>
+<hr>
+<div *ngIf="guardado" class="alert alert-warning" role="alert">
+    <strong>Guardado</strong>
+</div>
+
+<hr>
+
+<div class="row animated fadeIn fast">
+    <div class="col-md-10">
+        <form (ngSubmit)="guardar()" #forma="ngForm">
+
+            <div class="form-group">
+                <label>Cliente/Persona/Entidad : </label>
+                <input [(ngModel)]="movimiento.idCliente" name="idCliente" type="text" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>Concepto</label>
+                <textarea [(ngModel)]="movimiento.notas" name="notas" type="text" class="form-control" required>
+                    </textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Monto</label> $
+                <input [(ngModel)]="movimiento.montoTotal" name="montoTotal" type="number" class="form-control" placeholder="$$$" required>
+            </div>
+
+            <div class="form-group">
+                <button [disabled]="!forma.valid" type="submit" class="btn btn-outline-primary">
+                Guardar carmbios
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

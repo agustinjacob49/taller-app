@@ -1,0 +1,167 @@
+<h3>Nueva venta</h3>
+<hr>
+<div *ngIf="guardado" class="alert alert-warning" role="alert">
+    <strong>Guardado</strong>
+</div>
+
+
+
+<div class="row animated fadeIn fast">
+    <div class="col-md-12">
+        <form (ngSubmit)="guardar()" #forma="ngForm">
+            <div class="form-group text-left">
+                <button [disabled]="!forma.valid" type="submit" class="btn btn-outline-primary">
+                    Guardar carmbios
+                    </button>
+            </div>
+            <hr>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Cliente : </label>
+                <div class="col-md-8">
+                    <select [(ngModel)]="venta.idCliente" class="form-control" name="idClient" required>
+                     <option value="">- Seleccione un cliente -</option>
+                     <option *ngFor="let clienteP of clientes"
+                          [value]="clienteP._id"> {{ clienteP.nombre + ' ' + clienteP.apellido }} </option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Medio de pago : </label>
+                <div class="col-md-8">
+                    <select [(ngModel)]="venta.medioPago" class="form-control" name="medioPago" required>
+                         <option value="">- Seleccione medio de pago -</option>
+                         <option value="EFECTIVO"> Efectivo </option>
+                         <option value="TARJ"> Tarjeta de credito</option>
+                         <option value="CTACTE"> A pagar - Cta Cte </option>
+                      </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Tipo de movimiento : </label> <br>
+                <input [(ngModel)]="movimiento.esAFavor" type="radio" name="esAFavor" [value]="true" checked> Pago en el acto <br>
+                <input [(ngModel)]="movimiento.esAFavor" type="radio" name="esAFavor" [value]="false"> A cuenta - Deuda
+            </div>
+
+
+        </form>
+
+
+        <hr>
+
+        <div class="row animated fadeIn fast">
+            <div class="col-md-12">
+                <div class="input-group" style="margin-bottom:20px;"> <span class="input-group-addon"></span>
+                    <input [(ngModel)]="searchText" class="form-control" placeholder="Busqueda..">
+                </div>
+                <div class="table-responsive">
+
+                    <table class="table">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>#</th>
+                                <th>Titulo</th>
+                                <th>Marca</th>
+                                <th>Descripcion</th>
+                                <th>Cantidad</th>
+                                <th>Ultima actualizacion</th>
+                                <th>Precio</th>
+                                <th class="text-right">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let k of articulos | filter : searchText; let i = index">
+                                <td *ngIf="estaEntreLimites(i)">{{ i + 1 }}</td>
+                                <td *ngIf="estaEntreLimites(i)">{{ k.titulo | uppercase}}</td>
+                                <td *ngIf="estaEntreLimites(i)">{{ k.marca | uppercase}}</td>
+                                <td *ngIf="estaEntreLimites(i)">{{ k.descripcion | uppercase}}</td>
+                                <td *ngIf="estaEntreLimites(i)">{{ k.cantidad }}</td>
+                                <td *ngIf="estaEntreLimites(i)">{{ k.fechaActualizacion }}</td>
+                                <td *ngIf="estaEntreLimites(i)">${{ k.precio}}</td>
+                                <td class="text-right w120" *ngIf="estaEntreLimites(i)">
+                                    <button type="button" class="btn btn-outline-success" (click)="agregarArticulo(k)">
+                            Agregar
+                            </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-danger" (click)="retrocederPagina()">
+                Atras
+            </button>
+                    <div class="float-right">
+                        <button type="button" class="btn btn-success" (click)="cambiarPagina()">
+                Siguiente
+                </button>
+                    </div>
+                    <div *ngIf="(articulos | keys).length === 0 && !loading" class="alert alert-info" role="alert">
+                        <strong>No hay</strong> registros que mostrar
+                    </div>
+                    <div *ngIf="loading" class="alert alert-warning" role="alert">
+                        <strong>Cargando...</strong> por favor espere
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <hr>
+        <br>
+        <h2>Articulos de la venta</h2>
+        <div class="row animated fadeIn fast">
+            <div class="col-md-12">
+                <div class="table-responsive">
+
+                    <table class="table">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>#</th>
+                                <th>Titulo</th>
+                                <th>Marca</th>
+                                <th>Descripcion</th>
+                                <th>Cantidad</th>
+                                <th>Ultima actualizacion</th>
+                                <th>Precio/U</th>
+                                <th>Precio total</th>
+                                <th class="text-right">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ks of venta.articulos ; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ ks.titulo | uppercase}}</td>
+                                <td>{{ ks.marca | uppercase}}</td>
+                                <td>{{ ks.descripcion | uppercase}}</td>
+                                <td>{{ ks.cantidad }}</td>
+                                <td>{{ ks.fechaActualizacion }}</td>
+                                <td>${{ ks.precio}}</td>
+                                <td>${{ ks.precio * ks.cantidad}}</td>
+                                <td class="text-right w120">
+                                    <button type="button" class="btn btn-outline-danger" (click)="showVenta()">
+                            Eliminar
+                            </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="(venta.articulos | keys).length === 0 && !loading" class="alert alert-info" role="alert">
+                        <strong>No hay</strong> articulos agregados a la venta
+                    </div>
+                    <div *ngIf="loading" class="alert alert-warning" role="alert">
+                        <strong>Cargando...</strong> por favor espere
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <hr>
+        <h1 class="text-right">Total : $<strong>{{venta.montoTotal}}</strong></h1>
+        <hr>
+
+
+
+
+    </div>
+</div>

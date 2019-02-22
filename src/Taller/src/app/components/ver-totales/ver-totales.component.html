@@ -1,0 +1,118 @@
+<button type="button" class="btn btn-outline-danger float-right" [routerLink]="['/salidaDinero']">
+  Nuevo movimiento - Salida
+  </button>
+<button type="button" class="btn btn-outline-success float-right" [routerLink]="['/nuevoMovimiento']">
+    Nuevo movimiento - Entrada dinero
+  </button>
+<button type="button" class="btn btn-outline-info float-right" [routerLink]="['/ventaNueva']">
+    Nueva venta
+  </button>
+<h4>Movimientos entrada de dinero</h4>
+
+<hr>
+<div class="row animated fadeIn fast">
+    <div class="col-md-12">
+
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>#</th>
+                        <th>Nota</th>
+                        <th>Tipo de movimiento</th>
+                        <th (click)="orderByMovEntrada()"> <u>Fecha</u> </th>
+                        <th>Monto</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let k of movimientos_entrada; let i = index ;">
+                        <td *ngIf="estaEntreLimites(i)">{{ i + 1 }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ k.notas }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ showDatos(k.esAFavor) }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ k.fechaActualizacion }}</td>
+                        <td *ngIf="estaEntreLimites(i)">${{ k.montoTotal }}</td>
+                        <td *ngIf="estaEntreLimites(i)">
+                            <button (click)="deleteMovimiento_entrada(k._id, i)" type="button" class="btn btn-outline-danger">
+                            Eliminar
+                          </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-danger" (click)="retrocederPagina()">
+                Atras
+            </button>
+            <div class="float-right">
+                <button type="button" id="siguiente" class="btn btn-success" (click)="cambiarPagina()">
+                Siguiente
+                </button>
+            </div>
+            <div *ngIf="(movimientos_entrada).length === 0 && !loading" class="alert alert-info" role="alert">
+                <strong>No hay</strong> registros que mostrar
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<h4>Movimientos salida de dinero</h4>
+<div class="row animated fadeIn fast">
+    <div class="col-md-12">
+
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>#</th>
+                        <th>Nota</th>
+                        <th (click)="orderByMovSalida()"> <u>Fecha</u> </th>
+                        <th>Monto</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let k of movimientos_salida; let i = index ;">
+                        <td *ngIf="estaEntreLimites2(i)">{{ i + 1 }}</td>
+                        <td *ngIf="estaEntreLimites2(i)">{{ k.notas }}</td>
+                        <td *ngIf="estaEntreLimites2(i)">{{ k.fechaActualizacion }}</td>
+                        <td *ngIf="estaEntreLimites2(i)">${{ k.montoTotal }}</td>
+                        <td *ngIf="estaEntreLimites2(i)">
+                            <button (click)="deleteMovimiento_salida(k._id, i)" type="button" class="btn btn-outline-danger">
+                                  Eliminar
+                                </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-danger" (click)="retrocederPagina2()">
+                Atras
+            </button>
+            <div class="float-right">
+                <button type="button" class="btn btn-success" (click)="cambiarPagina2()">
+                Siguiente
+                </button>
+            </div>
+            <div *ngIf="(movimientos_salida).length === 0 && !loading" class="alert alert-info" role="alert">
+                <strong>No hay</strong> registros que mostrar
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<h1 class="text-right">Egresos : <strong>${{deuda}}</strong></h1>
+<hr>
+
+<h1 class="text-right">Ingresos : <strong>${{aFavor}}</strong></h1>
+<hr>
+
+<h1 class="text-right">Total neto en caja : <strong>${{neto}}</strong></h1>
+<hr>
+
+<br>

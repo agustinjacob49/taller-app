@@ -1,0 +1,74 @@
+<h3>Articulo <small>{{ articulo.titulo | uppercase }}</small></h3>
+<button (click)="regresar()" class="btn btn-outline-danger">
+  Regresar
+</button>
+<button (click)="agregarNuevo(forma)" type="button" class="btn btn-outline-success">
+  Nuevo
+</button>
+<hr>
+<div *ngIf="guardado" class="alert alert-warning" role="alert">
+    <strong>Guardado</strong>
+</div>
+
+<hr>
+
+<div class="row animated fadeIn fast">
+    <div class="col-md-10">
+
+        <form (ngSubmit)="guardar()" #forma="ngForm">
+
+            <div class="form-group">
+                <label>Nombre</label>
+                <input [(ngModel)]="articulo.titulo" name="nombre" type="text" class="form-control" placeholder="Nombre del articulo" required>
+            </div>
+
+            <div class="form-group">
+                <label>Marca</label>
+                <input [(ngModel)]="articulo.marca" name="marca" type="text" class="form-control" placeholder="Marca del articulo" required>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label>Precio mayorista </label> $
+                    <input [(ngModel)]="articulo.precioMayorista" name="precioMayorista" type="number" class="form-control" placeholder="$$$$" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label>Ganancia </label> %
+                    <input [(ngModel)]="articulo.gananciaPorcentaje" name="gananciaPorcentaje" type="number" class="form-control" placeholder="$$$$" required (change)="calcularPrecio()">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label>Precio final </label> $
+                    <input [(ngModel)]="articulo.precio" name="precio" type="number" class="form-control" placeholder="$$$$" required>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label>Cantidad en stock</label>
+                <input [(ngModel)]="articulo.cantidad" name="cantidad" type="text" class="form-control" placeholder="Cantidad" required>
+            </div>
+
+            <div class="form-group">
+                <label>Descripcion</label>
+                <textarea [(ngModel)]="articulo.descripcion" name="descripcion" type="text" class="form-control">
+        </textarea>
+            </div>
+
+            <div class="form-group">
+                <button [disabled]="!forma.valid" type="submit" class="btn btn-outline-primary">
+          Guardar carmbios
+        </button>
+            </div>
+
+        </form>
+
+
+    </div>
+</div>

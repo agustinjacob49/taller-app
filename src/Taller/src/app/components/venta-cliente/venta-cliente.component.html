@@ -1,0 +1,137 @@
+<h1>Datos del cliente : </h1>
+<hr>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Direccion</th>
+                        <th>Email</th>
+                        <th>Telefono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ cliente.nombre | uppercase}}</td>
+                        <td>{{ cliente.apellido | uppercase}}</td>
+                        <td>{{ cliente.direccion | uppercase}}</td>
+                        <td>{{ cliente.email }}</td>
+                        <td>{{ cliente.telefono }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<h2>Ventas</h2>
+<div class="row animated fadeIn fast">
+    <div class="col-md-12">
+
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>#</th>
+                        <th>Id</th>
+                        <th>Articulo/s</th>
+                        <th>Nota</th>
+                        <th (click)="orderByFecha()"> <u>Fecha</u> </th>
+                        <th>Medio de pago</th>
+                        <th>Monto</th>
+                        <th class="text-right">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let k of ventas_cliente; let i = index ;">
+                        <td *ngIf="estaEntreLimites(i)">{{ i + 1 }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ k._id }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ showArticulos(k.articulos) }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ k.notas }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ k.fechaActualizacion }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ k.medioPago }}</td>
+                        <td *ngIf="estaEntreLimites(i)">${{ k.montoTotal }}</td>
+                        <td class="text-right w120" *ngIf="estaEntreLimites(i)">
+                            <button [routerLink]="['/venta', k._id ]" type="button" class="btn btn-outline-primary">
+                                      Ver venta
+                                    </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-danger" (click)="retrocederPagina()">
+                    Atras
+                </button>
+            <div class="float-right">
+                <button type="button" class="btn btn-success" (click)="cambiarPagina()">
+                    Siguiente
+                    </button>
+            </div>
+            <hr>
+            <div *ngIf="ventas.length === 0 && !loading" class="alert alert-info" role="alert">
+                <strong>No hay</strong> ventas que mostrar
+            </div>
+
+        </div>
+    </div>
+</div>
+<h4>Movimientos</h4>
+
+<hr>
+<div class="row animated fadeIn fast">
+    <div class="col-md-12">
+
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>#</th>
+                        <th>Nota</th>
+                        <th>Tipo de movimiento</th>
+                        <th (click)="orderByFechaMov()"> <u>Fecha</u> </th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let k of movimientos_cliente; let i = index ;">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ k.notas }}</td>
+                        <td>{{ showDatos(k.esAFavor)}}</td>
+                        <td>{{ k.fechaActualizacion }}</td>
+                        <td>${{ k.montoTotal }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="(movimientos_cliente).length === 0 && !loading" class="alert alert-info" role="alert">
+                <strong>No hay</strong> movimientos que mostrar
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<hr>
+<h1 class="text-right">Total a pagar : <strong>${{ventaTotales}}</strong></h1>
+<hr>
+
+<hr>
+<h1 class="text-right">Total pagado : <strong>${{aFavor}}</strong></h1>
+<hr>
+
+<hr>
+<h1 class="text-right" [ngClass]="{ 'text-danger' : neto < 0 ,
+                                    'text-success' : neto > 0 ,
+                                    'text-primary' : neto == 0 }">Total neto : <strong>${{neto}}</strong></h1>
+<hr>
+
+<br>

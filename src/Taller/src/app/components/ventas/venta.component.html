@@ -1,0 +1,88 @@
+<h1>Venta ID : {{venta._id}}</h1>
+<hr>
+
+<h4>Fecha : {{venta.fechaActualizacion}}</h4>
+<hr>
+<h4>Datos de cliente : </h4>
+<hr>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Direccion</th>
+                        <th>Email</th>
+                        <th>Telefono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ cliente.nombre | uppercase}}</td>
+                        <td>{{ cliente.apellido | uppercase}}</td>
+                        <td>{{ cliente.direccion | uppercase}}</td>
+                        <td>{{ cliente.email }}</td>
+                        <td>{{ cliente.telefono }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<h4>Articulos</h4>
+<hr>
+<div class="row animated fadeIn fast">
+    <div class="col-md-12">
+
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>#</th>
+                        <th>Titulo</th>
+                        <th>Marca</th>
+                        <th>Cantidad</th>
+                        <th>Precio U.</th>
+                        <th>Precio Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let k of venta.articulos | keys; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ venta.articulos[k].titulo | uppercase}}</td>
+                        <td>{{ venta.articulos[k].marca | uppercase}}</td>
+                        <td>{{ venta.articulos[k].cantidad }}</td>
+                        <td>${{ venta.articulos[k].precio}}</td>
+                        <td>${{ venta.articulos[k].precio * venta.articulos[k].cantidad }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div *ngIf="(venta.articulos).length === 0 && !loading" class="alert alert-info" role="alert">
+                <strong>No hay</strong> registros que mostrar
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<hr>
+<h1 class="text-right">Total : <strong>${{venta.montoTotal}}</strong></h1>
+<hr>
+
+<div class="row">
+    <div class="col-md-12 text-right">
+        <button class="btn btn-outline-danger" type="button" name="button" (click)="deleteVenta()">
+      Eliminar venta
+    </button>
+    </div>
+</div>
+<br>

@@ -1,0 +1,58 @@
+<h3>Nuevo movimiento - Entrada caja</h3>
+<button (click)="regresar()" class="btn btn-outline-danger">
+  Regresar
+</button>
+<hr>
+<div *ngIf="guardado" class="alert alert-warning" role="alert">
+    <strong>Guardado</strong>
+</div>
+
+<hr>
+
+<div class="row animated fadeIn fast">
+    <div class="col-md-10">
+        <form (ngSubmit)="guardar()" #forma="ngForm">
+
+            <div class="form-group">
+                <label>Cliente : </label>
+                <select [(ngModel)]="movimiento.idCliente" class="form-control" name="idClient" required (change)="cargarVentas()" id="selectorCliente">
+                             <option value="">- Seleccione un cliente -</option>
+                             <option *ngFor="let clienteP of clientes"
+                                  [value]="clienteP._id"> {{ clienteP.nombre + ' ' + clienteP.apellido }} </option>
+                    </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de movimiento : </label> <br>
+                <input [(ngModel)]="movimiento.esAFavor" type="radio" name="esAFavor" [value]="true" checked> Pago
+                <input [(ngModel)]="movimiento.esAFavor" type="radio" name="esAFavor" [value]="false"> Deuda
+            </div>
+
+            <div class="form-group">
+                <label>Concepto</label>
+                <textarea [(ngModel)]="movimiento.notas" name="notas" type="text" class="form-control">
+                    </textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Monto</label> $
+                <input [(ngModel)]="movimiento.montoTotal" name="montoTotal" type="number" class="form-control" placeholder="$$$" required>
+            </div>
+            <div class="form-group">
+                <label>Venta asociada : <small>(Opcional)</small></label>
+                <select [(ngModel)]="movimiento.idventaAsociada" class="form-control" name="idventaAsociada">
+                             <option value="">- Seleccione venta -</option>
+                             <option *ngFor="let ventaP of ventas_cliente"
+                                  [value]="ventaP._id"> {{ 'ID : ' +  ventaP._id + ' - TOTAL : ' + ventaP.montoTotal  + ' FECHA : ' + ventaP.fechaActualizacion}} </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button [disabled]="!forma.valid" type="submit" class="btn btn-outline-primary">
+                Guardar carmbios
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

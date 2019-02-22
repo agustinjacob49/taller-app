@@ -1,0 +1,75 @@
+<h1>Ventas</h1>
+<hr>
+
+
+<div class="row">
+    <div class="col-md-12 text-right">
+        <button [routerLink]="['/ventaNueva']" class="btn btn-outline-primary" type="button" name="button">
+      Nueva venta
+    </button>
+    </div>
+</div>
+<br>
+
+
+<div class="row animated fadeIn fast">
+    <div class="col-md-12">
+        <div class="input-group" style="margin-bottom:20px;"> <span class="input-group-addon"></span>
+            <input [(ngModel)]="searchText" class="form-control" placeholder="Busqueda por apellido..">
+        </div>
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Articulo/s</th>
+                        <th>Nota</th>
+                        <th (click)="orderBy()"> <u>Fecha</u> </th>
+                        <th>Medio de pago</th>
+                        <th>Monto</th>
+                        <th class="text-right">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let k of ventas; let i = index ;">
+                        <td *ngIf="estaEntreLimites(i)">{{ i + 1 }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ getCliente(k.idCliente) }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ getClienteApellido(k.idCliente)}}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ showArticulos(k.articulos) }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ k.notas }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ k.fechaActualizacion }}</td>
+                        <td *ngIf="estaEntreLimites(i)">{{ k.medioPago }}</td>
+                        <td *ngIf="estaEntreLimites(i)">${{ k.montoTotal }}</td>
+                        <td *ngIf="estaEntreLimites(i)" class="text-right w120">
+                            <button [routerLink]="['/venta', k._id ]" type="button" class="btn btn-outline-primary">
+                              Ver venta
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-danger" (click)="retrocederPagina()">
+                Atras
+            </button>
+            <div class="float-right">
+                <button type="button" class="btn btn-success" (click)="cambiarPagina()">
+                Siguiente
+                </button>
+            </div>
+
+            <div *ngIf="(ventas | keys).length === 0 && !loading" class="alert alert-info" role="alert">
+                <strong>No hay</strong> registros que mostrar
+            </div>
+            <div *ngIf="loading" class="alert alert-warning" role="alert">
+                <strong>Cargando...</strong> por favor espere
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
